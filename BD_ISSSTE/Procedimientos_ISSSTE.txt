@@ -1,0 +1,46 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> -- ALTERA EL NOMBRE DEL ÁREA USANDO LA CLAVE DEL ÁREA Y EL NOMBRE DEL ÁREA
+SQL> -- DE LAS TABLAS DEL AREA EJEMPLO
+SQL> CREATE OR REPLACE PROCEDURE CambiaArea(vArea IN
+  2  NUMBER,vNom IN CHAR)
+  3  AS
+  4  BEGIN
+  5  UPDATE area SET nombrea=vNom WHERE
+  6  clave_area=vArea;
+  7  COMMIT;
+  8  DBMS_OUTPUT.PUT_LINE('Área modificada:
+  9  '||vNom);
+ 10  END;
+ 11  /
+
+Procedimiento creado.
+
+SQL> -- AQUÍ EN ESTE EJEMPLO SE CAMBIARA EL NOMBRE DE 'DIRECCIÓN' POR EL DE 'PRUEBA'
+SQL> EXEC CAMBIAAREA(40000,'PRUEBA')
+
+Procedimiento PL/SQL terminado correctamente.
+
+SQL> -- ALTERA EL SALARIO DE LA NOMINA USANDO LA CLAVE DE LA NOMINA
+SQL> -- Y EL SALARIO DE LA TABLA NOMINA EJEMPLO
+SQL> CREATE OR REPLACE PROCEDURE Cambiasalario(vNomina IN
+  2  NUMBER,vSalario IN CHAR)
+  3  AS
+  4  BEGIN
+  5  UPDATE nomina SET Salario=vSalario WHERE
+  6  clave_nomina=vNomina;
+  7  COMMIT;
+  8  DBMS_OUTPUT.PUT_LINE('Salario modificado:
+  9  '||vSalario);
+ 10  END;
+ 11  /
+
+Procedimiento creado.
+
+SQL> -- AQUÍ EN ESTE EJEMPLO SE CAMBIARA EL SALARIO DE '200302' POR EL DE '300524'
+SQL> EXEC CAMBIAAREA(4203,'300524')
+
+Procedimiento PL/SQL terminado correctamente.
+
+SQL> 

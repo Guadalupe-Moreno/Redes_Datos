@@ -1,0 +1,1148 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> --CREACION DE LAS TABLAS
+SQL> CREATE TABLE AREA
+  2  (
+  3   clave_area           NUMBER(5) NOT NULL ,
+  4   nombreA              CHAR(50) NULL ,
+  5   num_CentroTrabajo    NUMBER(3) NULL
+  6  );
+
+Tabla creada.
+
+SQL> ALTER TABLE AREA
+  2   ADD CONSTRAINT  XPKAREA PRIMARY KEY (clave_area);
+
+Tabla modificada.
+
+SQL> CREATE TABLE HOSPITAL
+  2  (
+  3   id_hospital          NUMBER(3) NOT NULL ,
+  4   nombreH              CHAR(50) NOT NULL ,
+  5   delegacionH          CHAR(20) NOT NULL ,
+  6   coloniaH             CHAR(50) NOT NULL ,
+  7   calleH               CHAR(50) NOT NULL ,
+  8   numeroH              NUMBER(5) NULL
+  9  );
+
+Tabla creada.
+
+SQL> ALTER TABLE HOSPITAL
+  2   ADD CONSTRAINT  XPKHOSPITAL PRIMARY KEY (id_hospital);
+
+Tabla modificada.
+
+SQL> CREATE TABLE MEDICO
+  2  (
+  3   clave_medico         NUMBER(3) NOT NULL ,
+  4   nom_pilaM            CHAR(30) NULL ,
+  5   ap_paternoM          CHAR(15) NULL ,
+  6   ap_maternoM          CHAR(15) NULL ,
+  7   id_hospital          NUMBER(3) NULL
+  8  );
+
+Tabla creada.
+
+SQL> ALTER TABLE MEDICO
+  2   ADD CONSTRAINT  XPKMEDICO PRIMARY KEY (clave_medico);
+
+Tabla modificada.
+
+SQL> CREATE TABLE NOMINA
+  2  (
+  3   clave_nomina         NUMBER(4) NOT NULL ,
+  4   salario              CHAR(10) NOT NULL ,
+  5   deducciones_SeguroMedico CHAR(10) NOT NULL
+  6  );
+
+Tabla creada.
+
+SQL> ALTER TABLE NOMINA
+  2   ADD CONSTRAINT  XPKNOMINA PRIMARY KEY (clave_nomina);
+
+Tabla modificada.
+
+SQL> CREATE TABLE pertenece
+  2  (
+  3   fecha_inicioT        DATE NOT NULL ,
+  4   clave_nomina         NUMBER(4) NOT NULL ,
+  5   clave_empleado       NUMBER(6) NOT NULL
+  6  );
+
+Tabla creada.
+
+SQL> ALTER TABLE pertenece
+  2   ADD CONSTRAINT  XPKpertenece PRIMARY KEY (clave_nomina,clave_empleado);
+
+Tabla modificada.
+
+SQL> CREATE TABLE presentaLicMed
+  2  (
+  3   folio_licencia       CHAR(12) NOT NULL ,
+  4   fecha_inicioL        DATE NOT NULL ,
+  5   fecha_terminoL       DATE NOT NULL ,
+  6   diagnostico          CHAR(50) NOT NULL ,
+  7   clave_medico         NUMBER(3) NOT NULL ,
+  8   clave_empleado       NUMBER(6) NOT NULL
+  9  );
+
+Tabla creada.
+
+SQL> ALTER TABLE presentaLicMed
+  2   ADD CONSTRAINT  XPKpresentaLicMed PRIMARY KEY (folio_licencia,clave_medico,clave_empleado);
+
+Tabla modificada.
+
+SQL> CREATE TABLE TRABAJADOR
+  2  (
+  3   clave_empleado       NUMBER(6) NOT NULL ,
+  4   nom_pilaT            CHAR(30) NOT NULL ,
+  5   ap_paternoT          CHAR(15) NULL ,
+  6   ap_maternoT          CHAR(15) NULL ,
+  7   especialidad         CHAR(40) NOT NULL ,
+  8   delegacionT          CHAR(20) NULL ,
+  9   coloniaT             CHAR(50) NULL ,
+ 10   calleT               CHAR(50) NULL ,
+ 11   numeroT              CHAR(5) NULL ,
+ 12   telefono             NUMBER(10) NULL ,
+ 13   email                CHAR(30) NULL ,
+ 14   clave_area           NUMBER(5) NULL
+ 15  );
+
+Tabla creada.
+
+SQL> ALTER TABLE TRABAJADOR
+  2   ADD CONSTRAINT  XPKTRABAJADOR PRIMARY KEY (clave_empleado);
+
+Tabla modificada.
+
+SQL> ALTER TABLE MEDICO
+  2   ADD (CONSTRAINT R_1 FOREIGN KEY (id_hospital) REFERENCES HOSPITAL (id_hospital) ON DELETE SET NULL);
+
+Tabla modificada.
+
+SQL> ALTER TABLE pertenece
+  2   ADD (CONSTRAINT R_7 FOREIGN KEY (clave_nomina) REFERENCES NOMINA (clave_nomina));
+
+Tabla modificada.
+
+SQL> ALTER TABLE pertenece
+  2   ADD (CONSTRAINT R_8 FOREIGN KEY (clave_empleado) REFERENCES TRABAJADOR (clave_empleado));
+
+Tabla modificada.
+
+SQL> ALTER TABLE presentaLicMed
+  2   ADD (CONSTRAINT R_4 FOREIGN KEY (clave_medico) REFERENCES MEDICO (clave_medico));
+
+Tabla modificada.
+
+SQL> ALTER TABLE presentaLicMed
+  2   ADD (CONSTRAINT R_9 FOREIGN KEY (clave_empleado) REFERENCES TRABAJADOR (clave_empleado));
+
+Tabla modificada.
+
+SQL> ALTER TABLE TRABAJADOR
+  2   ADD (CONSTRAINT R_3 FOREIGN KEY (clave_area) REFERENCES AREA (clave_area) ON DELETE SET NULL);
+
+Tabla modificada.
+
+SQL> --INCERTAMOS LAS TUPLAS DE CADA TABLA
+SQL> insert into HOSPITAL values('011','1 de Octubre','Gustavo A. Madero','Magdalena de las Salinas','Av. Instituto Politecnico Nacional','1669');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('015','Clinica de Especialidades Indianilla','Cuauhtemoc','Doctores','Dr. Claudio Bernand','85');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('018','5 de Febrero','Cuauhtemoc','Centro','5 de Febrero','111');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('020','Aragon','Gustavo A. Madero','Aragon la Villa','Moctezuma','168');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('021','Dr. Javier Dominguez Estrada','Cuauhtemoc','Condesa','Jse Vasconcelos','10');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('027','Lic. Adolfo Lopez Mateos','Alvaro Obregon','Florida','Av. Universidad','1321');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('030','Dr. Dario Fernandez Fierro','Benito Juarez','San Jose Insurgentes','Av. Revolucion','1182');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('032','Churubusco','Coyoacan','Parque de San Andres','Calz. de Tlalpan','1983');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('033','Coyoacan','Coyoacan','Barrio la Concepcion','Fernandez Leal','11');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('035','Del Valle','Benito Juarez','Del Valle','Patricio Sanz','51');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('037','Division del Norte','Coyoacan','San Pablo Tepetlapa','Division del Norte','3755');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('039','Dr. Ignacio Chavez','Coyoacan','U.H. Alianza Popular Revolucionaria','Oriental','10');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('041','Fuentes Brotantes','Tlalpan','Miguel Hidalgo','Av. Hidalgo','');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('044','Milpa Alta','Milpa Alta','Barrio Santa Cruz','Av. Tabasco Ote.','184');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('045','Narvarte','Benito Juarez','Narvarte','Eugenia','230');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('046','Tlalpan','Tlalpan','Tlalpan Centro','Guadalupe Victoria','2');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('047','Villa Alvaro Obregon','Alvaro Obregon','San Angel','Av. Revolucion','1556');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('050','Xochimilco','Xochimilco','Barrio de San Pedro','Gladiolas','158');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('051','Gral. Ignacio Zaragoza','Iztapalapa','Ejercito Constitucionalista','Calz. Gral. Ignacio Zaragoza','1711');
+
+1 fila creada.
+
+SQL> insert into HOSPITAL values('055','Jose Maria Morelos y Pavon','Iztapalapa','U.H. Ermita Zaragoza','Congreso de Chilpancingo Norte y Sur','');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('379','Abraham','Diaz','Gonzalez','11');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('27','','Torres','','30');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('194','Maria del Carmen','Popoca','Martinez','35');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('15','Maria del Rosario','Soto','Balderas','15');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('63','Miguel','Nava','Ramirez','27');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('867','Gustavo','Galicia','Negrete','18');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('11','Jorge','Corona','Perez','11');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('779','Beatriz','Guevara','Galicia','47');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('865','Jorge Anselmo','Peña','Perez','51');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('34','Gabino','Cruz','','37');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('6','Gabriela','Juarez','Campos','11');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('687','Alfonso','Sierra','Torres','47');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('18','Ma. Alejandra','Perez','Lozano','37');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('742','Norma','Hernandez','Cuevas','51');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('139','','Jimenez','Aquino','18');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('791','Astrid','Vergara','Erdosay','27');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('735','David','Mexica','Atenco','55');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('89','Carlos','Vazquez','Lopez','50');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('700','Veronica','Mora','Jimenez','46');
+
+1 fila creada.
+
+SQL> insert into MEDICO values('737','Angel','Reyes','Ochoa','46');
+
+1 fila creada.
+
+SQL> insert into AREA values('41000','SUBDIRECCION MEDICA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('40000','DIRECCION','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('03300','COORD. DE ENSENANZA E INVESTIGACION','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('09700','ARCHIVO CLINICO','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('14300','FARMACIA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('02400','TRABAJO SOCIAL','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('01200','ASISTENCIA DE LA DIRECCION','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('15300','LAVANDERIA Y ROPERIA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('09506','QUIROFANO','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('05200','GINECOLOGIA Y PERINATOLOGIA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('02600','ADMISION Y EGRESOS','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('07300','CIRUGIA GENERAL','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('04240','ALERGOLOGIA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('15550','CAMILLEROS','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('06400','PEDIATRIA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('02300','MOD. DE ORIEN. Y ATEN. AL DERECHOHABIENTE','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('07210','ANGIOLOGIA','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('09650','MEDICINA FISICA Y REHABILITACION','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('10042','MANTENIMIENTO ESPECIALIZADO','47');
+
+1 fila creada.
+
+SQL> insert into AREA values('07380','ODONTOLOGIA ESPECIALIZADA','47');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('202922','FROYLAN','DE LA TORRE','LUCAS','ASISTENTE ADMINISTRATIVO EN SALUD - A3','Coyoacan','Karstens Hill','Ridge Oak Center','12','5512431428','fivanisov0@chicagotribune.com','41000');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('202929','IRMA','RUIZ','ESPEJEL','ENFERMERA JEFE DE SERVICIO','Tlalpan','Ridgeview Plaza','Larry Way','32','5545169157','bbullingham1@nasa.gov','05200');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('202931','FRANCISCO','OLVERA','FLORES','AUXILIAR DE ENFERMERIA "B"','Milpa Alta','Ryan Circle','Orin Pass','45','5511591619','eselby2@angelfire.com','40000');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('203108','VICTORIA','MARRON','DORDELLY','ENFERMERA JEFE DE SERVICIO','Xochimilco','Blaine Road','Golden Leaf Junction','678','5569753329','tfierro3@studiopress.com','14300');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('203109','SANDRA','LUZ','FONSECA','APOYO ADMINISTRATIVO EN SALUD - A5','Alvaro Obregon','Mayer Pass','Troy Place','542','5549975103','pswithenby4@smugmug.com','04240');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('203285','LILIA','MANZANILLA','NIETO','APOYO ADMINISTRATIVO EN SALUD - A4','Tlalpan','Pond Point','Anderson Way','3','5516390583','rlackinton5@ocn.ne.jp','15550');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('203568','LUZ ADELINA','ZAVALA','PEREZ','ENFERMERA ESPECIALISTA "B"','Xochimilco','Kenwood Lane','Bartillon Circle','3','5566211657','ameharry6@netvibes.com','6400');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204326','LUZ MARIA','GUADARRAMA','BAUTISTA','MEDICO ESPECIALISTA "B"','Coyoacan','Meadow Valley Drive','Washington Avenue','54','5527412357','ctrudgian7@gizmodo.com','7210');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204327','PINITO','DAMIAN','DIAZ','CAMILLERO','Iztapalapa','Talmadge Road','Havey Pass','78','5532248480','flukacs8@clickbank.net','10042');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204445','CIRILO','TORRES','ABONZA','MEDICO ESPECIALISTA "B"','Gustavo A. Madero','Loomis Junction','Moland Center','34','5581311806','smonard9@cafepress.com','7380');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204472','MARCO ANTONIO','SANCHEZ','ABONZA','LABORATORISTA "A"','Tlalpan','Melody Way','Rigney Point','8','5588679558','ishildrakea@wsj.com','7300');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204705','MARIA ISABEL','RAMIREZ','RUFINO','MEDICO JEFE DE SERVICIO','Alvaro Obregon','Calypso Terrace','Golden Leaf Hill','55','5527247750','sprodrickb@wordpress.com','2600');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204706','GLORIA MARTHA','ARABI','GUZMAN','APOYO ADMINISTRATIVO EN SALUD - A4','Gustavo A. Madero','Nevada Terrace','Tomscot Park','36','5574715388','mashleec@ucla.edu','1200');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204707','AGUSTIN','MARTINEZ','MENDEZ','APOYO ADMINISTRATIVO EN SALUD - A3','Benito Juarez','Merry Pass','School Avenue','84','5545329635','tmatuskiewiczd@newsvine.com','3300');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204888','MOISES','ACOSTA','LORENZO','LABORATORISTA "A"','Alvaro Obregon','Lien Hill','Fordem Lane','56','5565109430','pbaudichone@globo.com','9700');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204891','ROSARIO','ESPINOSA','ALTAMIRANO','ENFERMERA ESPECIALISTA "B"','Benito Juarez','Utah Park','Scofield Parkway','98','5577915849','bbraundtf@163.com','41000');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('204892','MARIA EUGENIA','HERNANDEZ','GONZALEZ PLIEGO','ENFERMERA GENERAL TITULADA "B"','Benito Juarez','Maple Drive','Bartelt Crossing','65','5567929961','mdekeyserg@google.com','10042');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('205227','MARIA DE LOS ANGELES','REYES','ESPEJEL','TERAPISTA','Tlalpan','Boyd Circle','Mayfield Place','789','5595293162','iabrahamo@creativecommons.org','7210');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('205866','DIVINA ELEN','PALMA','GUADARRAMA','MEDICO JEFE DE SERVICIO','Coyoacan','Crownhardt Crossing','Monument Park','88','5508876222','cstolli@cnet.com','9650');
+
+1 fila creada.
+
+SQL> insert into TRABAJADOR values('206164','LUZ MARIA','SALINAS','PEREZ','ENFERMERA GENERAL TITULADA "B"','Iztapalapa','Myrtle Drive','David Place','66','5511308718','htrencherj@google.es','4240');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0023790','26/03/19','28/03/19','CONJUNTIVITIS PROBLABLE ORIGEN VIRAL','687','202922');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('015LM2001672','29/03/19','31/03/19','FX DE CODO IZQUIERDO REDUCIDA DE 5 SEM.','194','202931');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('092LM1469190','31/03/19','31/03/19','GEPI','15','202922');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0031488','31/03/19','31/03/19','SINDROME NEFROTICO','867','202929');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0030771','26/03/19','29/03/19','EVE ISQUEMICO + TROMBOSIS EXITOSA DEL MISMO','779','203285');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('093LM1162380','01/04/19','06/04/19','EVC ISQUEMICO + TROMBOSIS EXITOSA DEL MISMO','379','202922');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0030607','22/03/19','28/03/19','INFECCION DE VIAS AREAS SUPERIORES AGUDA PROL.','194','203108');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('015LM1988887','21/03/19','27/03/19','POLIPO DE COLON','27','204326');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0024787','14/03/19','18/03/19','ESPASMO HRMIFACIAL IZQUIERDO','11','203108');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('094LM0639498','21/03/19','25/03/19','RINOFARINGITIS','865','203109');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0023267','25/03/19','29/03/19','ENFERMEDAD RENAL CRONICA','6','204445');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0030932','01/04/19','05/04/19','CEFALITIS ACROMIOCLAVICULAR IZQUIERDA','687','204327');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('010LM0450968','04/04/19','10/04/19','PBLE FRACTURA TOBILLO IZQUIERDO','34','204888');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('093LM1123791','03/04/19','09/04/19','FX DE 10o ARCO COSTAL IZQ.','139','204472');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0017314','02/04/19','05/04/19','OTITIS MEDIA SUPERIOR OIDO DERECHO','139','204706');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('093LM1124064','04/04/19','07/04/19','GASTROENTERITIS PB INFECCIOSA + DESHIDRATACIOn','742','203108');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('093LM1124066','02/04/19','04/04/19','COXARTROSIS IZQUIERDA GRADO IV','89','204891');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0031528','01/04/19','08/04/19','FRACTURA DE TOBILLO IZQUIERDO WEBER A','779','205866');
+insert into presentaLicMed values('098LM0031528','01/04/19','08/04/19','FRACTURA DE TOBILLO IZQUIERDO WEBER A','779','205866')
+*
+ERROR en línea 1:
+ORA-02291: restricción de integridad (ISSSTE.R_9) violada - clave principal no encontrada 
+
+
+SQL> insert into presentaLicMed values('098LM0031905','03/04/19','07/04/19','INTOXICACION ALIMENTARIA','700','204892');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('015LM2050327','01/04/19','08/04/19','IURA + FARINGITIS','34','204705');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4203','10302.51','287.24');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4204','3885.00','160.62');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4205','3648.94','129.41');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4206','3648.94','134.75');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4207','3889.03','153.85');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4208','3885.00','111.12');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4209','3889.03','151.43');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4210','3153.72','107.99');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4211','7799.50','269.72');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4212','6700.13','224.68');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4213','4035.00','114.88');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4214','6700.13','223.65');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4215','6961.88','260.94');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4216','3885.00','160.58');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4217','153.72','107.99');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4218','7799.50','269.95');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4219','6700.13','232.22');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4220','4527.00','127.04');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4221','3153.72','107.65');
+
+1 fila creada.
+
+SQL> insert into NOMINA values('4222','6700.13','224.34');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/03/19','4203','202922');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/10/17','4217','204706');
+
+1 fila creada.
+
+SQL> insert into pertenece values('24/10/14','4205','202929');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/07/81','4209','202931');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/01/89','4215','203108');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/05/86','4213','204326');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/05/86','4208','203109');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/11/86','4211','203285');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/03/87','4218','206164');
+insert into pertenece values('01/03/87','4218','206164')
+*
+ERROR en línea 1:
+ORA-02291: restricción de integridad (ISSSTE.R_8) violada - clave principal no encontrada 
+
+
+SQL> insert into pertenece values('16/06/84','4222','205866');
+insert into pertenece values('16/06/84','4222','205866')
+*
+ERROR en línea 1:
+ORA-02291: restricción de integridad (ISSSTE.R_8) violada - clave principal no encontrada 
+
+
+SQL> insert into pertenece values('16/02/89','4205','205227');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/08/89','4206','204892');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/04/98','4203','204891');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/11/90','4214','204888');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/03/16','4207','204707');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/01/91','4214','204706');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/05/91','4207','204705');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/12/91','4217','204472');
+
+1 fila creada.
+
+SQL> insert into pertenece values('16/06/92','4215','204445');
+
+1 fila creada.
+
+SQL> insert into pertenece values('01/08/92','4212','204327');
+
+1 fila creada.
+
+SQL> --VER TABLAS CREADAS
+SQL> select table_name from user_tables;
+
+TABLE_NAME                                                                                                                                                                          
+------------------------------                                                                                                                                                      
+AREA                                                                                                                                                                                
+HOSPITAL                                                                                                                                                                            
+MEDICO                                                                                                                                                                              
+NOMINA                                                                                                                                                                              
+PERTENECE                                                                                                                                                                           
+PRESENTALICMED                                                                                                                                                                      
+TRABAJADOR                                                                                                                                                                          
+
+7 filas seleccionadas.
+
+SQL> --VER DESCRIPCION DE LAS TABLAS
+SQL> desc AREA
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_AREA                                                                                            NOT NULL NUMBER(5)
+ NOMBREA                                                                                                        CHAR(50)
+ NUM_CENTROTRABAJO                                                                                              NUMBER(3)
+
+SQL> desc HOSPITAL
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ ID_HOSPITAL                                                                                           NOT NULL NUMBER(3)
+ NOMBREH                                                                                               NOT NULL CHAR(50)
+ DELEGACIONH                                                                                           NOT NULL CHAR(20)
+ COLONIAH                                                                                              NOT NULL CHAR(50)
+ CALLEH                                                                                                NOT NULL CHAR(50)
+ NUMEROH                                                                                                        NUMBER(5)
+
+SQL> desc MEDICO
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_MEDICO                                                                                          NOT NULL NUMBER(3)
+ NOM_PILAM                                                                                                      CHAR(30)
+ AP_PATERNOM                                                                                                    CHAR(15)
+ AP_MATERNOM                                                                                                    CHAR(15)
+ ID_HOSPITAL                                                                                                    NUMBER(3)
+
+SQL> desc NOMINA
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_NOMINA                                                                                          NOT NULL NUMBER(4)
+ SALARIO                                                                                               NOT NULL CHAR(10)
+ DEDUCCIONES_SEGUROMEDICO                                                                              NOT NULL CHAR(10)
+
+SQL> desc PERTENECE
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ FECHA_INICIOT                                                                                         NOT NULL DATE
+ CLAVE_NOMINA                                                                                          NOT NULL NUMBER(4)
+ CLAVE_EMPLEADO                                                                                        NOT NULL NUMBER(6)
+
+SQL> desc PRESENTALICMED
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ FOLIO_LICENCIA                                                                                        NOT NULL CHAR(12)
+ FECHA_INICIOL                                                                                         NOT NULL DATE
+ FECHA_TERMINOL                                                                                        NOT NULL DATE
+ DIAGNOSTICO                                                                                           NOT NULL CHAR(50)
+ CLAVE_MEDICO                                                                                          NOT NULL NUMBER(3)
+ CLAVE_EMPLEADO                                                                                        NOT NULL NUMBER(6)
+
+SQL> desc TRABAJADOR
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_EMPLEADO                                                                                        NOT NULL NUMBER(6)
+ NOM_PILAT                                                                                             NOT NULL CHAR(30)
+ AP_PATERNOT                                                                                                    CHAR(15)
+ AP_MATERNOT                                                                                                    CHAR(15)
+ ESPECIALIDAD                                                                                          NOT NULL CHAR(40)
+ DELEGACIONT                                                                                                    CHAR(20)
+ COLONIAT                                                                                                       CHAR(50)
+ CALLET                                                                                                         CHAR(50)
+ NUMEROT                                                                                                        CHAR(5)
+ TELEFONO                                                                                                       NUMBER(10)
+ EMAIL                                                                                                          CHAR(30)
+ CLAVE_AREA                                                                                                     NUMBER(5)
+
+SQL> --VER EL CONTENIDO DE LAS TABLAS
+SQL> SELECT * FROM AREA;
+
+CLAVE_AREA NOMBREA                                            NUM_CENTROTRABAJO                                                                                                     
+---------- -------------------------------------------------- -----------------                                                                                                     
+     41000 SUBDIRECCION MEDICA                                               47                                                                                                     
+     40000 DIRECCION                                                         47                                                                                                     
+      3300 COORD. DE ENSENANZA E INVESTIGACION                               47                                                                                                     
+      9700 ARCHIVO CLINICO                                                   47                                                                                                     
+     14300 FARMACIA                                                          47                                                                                                     
+      2400 TRABAJO SOCIAL                                                    47                                                                                                     
+      1200 ASISTENCIA DE LA DIRECCION                                        47                                                                                                     
+     15300 LAVANDERIA Y ROPERIA                                              47                                                                                                     
+      9506 QUIROFANO                                                         47                                                                                                     
+      5200 GINECOLOGIA Y PERINATOLOGIA                                       47                                                                                                     
+      2600 ADMISION Y EGRESOS                                                47                                                                                                     
+
+CLAVE_AREA NOMBREA                                            NUM_CENTROTRABAJO                                                                                                     
+---------- -------------------------------------------------- -----------------                                                                                                     
+      7300 CIRUGIA GENERAL                                                   47                                                                                                     
+      4240 ALERGOLOGIA                                                       47                                                                                                     
+     15550 CAMILLEROS                                                        47                                                                                                     
+      6400 PEDIATRIA                                                         47                                                                                                     
+      2300 MOD. DE ORIEN. Y ATEN. AL DERECHOHABIENTE                         47                                                                                                     
+      7210 ANGIOLOGIA                                                        47                                                                                                     
+      9650 MEDICINA FISICA Y REHABILITACION                                  47                                                                                                     
+     10042 MANTENIMIENTO ESPECIALIZADO                                       47                                                                                                     
+      7380 ODONTOLOGIA ESPECIALIZADA                                         47                                                                                                     
+
+20 filas seleccionadas.
+
+SQL> SELECT * FROM HOSPITAL;
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         11 1 de Octubre                                       Gustavo A. Madero    Magdalena de las Salinas                                                                        
+Av. Instituto Politecnico Nacional                       1669                                                                                                                       
+                                                                                                                                                                                    
+         15 Clinica de Especialidades Indianilla               Cuauhtemoc           Doctores                                                                                        
+Dr. Claudio Bernand                                        85                                                                                                                       
+                                                                                                                                                                                    
+         18 5 de Febrero                                       Cuauhtemoc           Centro                                                                                          
+5 de Febrero                                              111                                                                                                                       
+                                                                                                                                                                                    
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         20 Aragon                                             Gustavo A. Madero    Aragon la Villa                                                                                 
+Moctezuma                                                 168                                                                                                                       
+                                                                                                                                                                                    
+         21 Dr. Javier Dominguez Estrada                       Cuauhtemoc           Condesa                                                                                         
+Jse Vasconcelos                                            10                                                                                                                       
+                                                                                                                                                                                    
+         27 Lic. Adolfo Lopez Mateos                           Alvaro Obregon       Florida                                                                                         
+Av. Universidad                                          1321                                                                                                                       
+                                                                                                                                                                                    
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         30 Dr. Dario Fernandez Fierro                         Benito Juarez        San Jose Insurgentes                                                                            
+Av. Revolucion                                           1182                                                                                                                       
+                                                                                                                                                                                    
+         32 Churubusco                                         Coyoacan             Parque de San Andres                                                                            
+Calz. de Tlalpan                                         1983                                                                                                                       
+                                                                                                                                                                                    
+         33 Coyoacan                                           Coyoacan             Barrio la Concepcion                                                                            
+Fernandez Leal                                             11                                                                                                                       
+                                                                                                                                                                                    
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         35 Del Valle                                          Benito Juarez        Del Valle                                                                                       
+Patricio Sanz                                              51                                                                                                                       
+                                                                                                                                                                                    
+         37 Division del Norte                                 Coyoacan             San Pablo Tepetlapa                                                                             
+Division del Norte                                       3755                                                                                                                       
+                                                                                                                                                                                    
+         39 Dr. Ignacio Chavez                                 Coyoacan             U.H. Alianza Popular Revolucionaria                                                             
+Oriental                                                   10                                                                                                                       
+                                                                                                                                                                                    
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         41 Fuentes Brotantes                                  Tlalpan              Miguel Hidalgo                                                                                  
+Av. Hidalgo                                                                                                                                                                         
+                                                                                                                                                                                    
+         44 Milpa Alta                                         Milpa Alta           Barrio Santa Cruz                                                                               
+Av. Tabasco Ote.                                          184                                                                                                                       
+                                                                                                                                                                                    
+         45 Narvarte                                           Benito Juarez        Narvarte                                                                                        
+Eugenia                                                   230                                                                                                                       
+                                                                                                                                                                                    
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         46 Tlalpan                                            Tlalpan              Tlalpan Centro                                                                                  
+Guadalupe Victoria                                          2                                                                                                                       
+                                                                                                                                                                                    
+         47 Villa Alvaro Obregon                               Alvaro Obregon       San Angel                                                                                       
+Av. Revolucion                                           1556                                                                                                                       
+                                                                                                                                                                                    
+         50 Xochimilco                                         Xochimilco           Barrio de San Pedro                                                                             
+Gladiolas                                                 158                                                                                                                       
+                                                                                                                                                                                    
+
+ID_HOSPITAL NOMBREH                                            DELEGACIONH          COLONIAH                                                                                        
+----------- -------------------------------------------------- -------------------- --------------------------------------------------                                              
+CALLEH                                                NUMEROH                                                                                                                       
+-------------------------------------------------- ----------                                                                                                                       
+         51 Gral. Ignacio Zaragoza                             Iztapalapa           Ejercito Constitucionalista                                                                     
+Calz. Gral. Ignacio Zaragoza                             1711                                                                                                                       
+                                                                                                                                                                                    
+         55 Jose Maria Morelos y Pavon                         Iztapalapa           U.H. Ermita Zaragoza                                                                            
+Congreso de Chilpancingo Norte y Sur                                                                                                                                                
+                                                                                                                                                                                    
+
+20 filas seleccionadas.
+
+SQL> SELECT * FROM MEDICO;
+
+CLAVE_MEDICO NOM_PILAM                      AP_PATERNOM     AP_MATERNOM     ID_HOSPITAL                                                                                             
+------------ ------------------------------ --------------- --------------- -----------                                                                                             
+         379 Abraham                        Diaz            Gonzalez                 11                                                                                             
+          27                                Torres                                   30                                                                                             
+         194 Maria del Carmen               Popoca          Martinez                 35                                                                                             
+          15 Maria del Rosario              Soto            Balderas                 15                                                                                             
+          63 Miguel                         Nava            Ramirez                  27                                                                                             
+         867 Gustavo                        Galicia         Negrete                  18                                                                                             
+          11 Jorge                          Corona          Perez                    11                                                                                             
+         779 Beatriz                        Guevara         Galicia                  47                                                                                             
+         865 Jorge Anselmo                  Peña            Perez                    51                                                                                             
+          34 Gabino                         Cruz                                     37                                                                                             
+           6 Gabriela                       Juarez          Campos                   11                                                                                             
+
+CLAVE_MEDICO NOM_PILAM                      AP_PATERNOM     AP_MATERNOM     ID_HOSPITAL                                                                                             
+------------ ------------------------------ --------------- --------------- -----------                                                                                             
+         687 Alfonso                        Sierra          Torres                   47                                                                                             
+          18 Ma. Alejandra                  Perez           Lozano                   37                                                                                             
+         742 Norma                          Hernandez       Cuevas                   51                                                                                             
+         139                                Jimenez         Aquino                   18                                                                                             
+         791 Astrid                         Vergara         Erdosay                  27                                                                                             
+         735 David                          Mexica          Atenco                   55                                                                                             
+          89 Carlos                         Vazquez         Lopez                    50                                                                                             
+         700 Veronica                       Mora            Jimenez                  46                                                                                             
+         737 Angel                          Reyes           Ochoa                    46                                                                                             
+
+20 filas seleccionadas.
+
+SQL> SELECT * FROM NOMINA;
+
+CLAVE_NOMINA SALARIO    DEDUCCIONE                                                                                                                                                  
+------------ ---------- ----------                                                                                                                                                  
+        4203 10302.51   287.24                                                                                                                                                      
+        4204 3885.00    160.62                                                                                                                                                      
+        4205 3648.94    129.41                                                                                                                                                      
+        4206 3648.94    134.75                                                                                                                                                      
+        4207 3889.03    153.85                                                                                                                                                      
+        4208 3885.00    111.12                                                                                                                                                      
+        4209 3889.03    151.43                                                                                                                                                      
+        4210 3153.72    107.99                                                                                                                                                      
+        4211 7799.50    269.72                                                                                                                                                      
+        4212 6700.13    224.68                                                                                                                                                      
+        4213 4035.00    114.88                                                                                                                                                      
+
+CLAVE_NOMINA SALARIO    DEDUCCIONE                                                                                                                                                  
+------------ ---------- ----------                                                                                                                                                  
+        4214 6700.13    223.65                                                                                                                                                      
+        4215 6961.88    260.94                                                                                                                                                      
+        4216 3885.00    160.58                                                                                                                                                      
+        4217 153.72     107.99                                                                                                                                                      
+        4218 7799.50    269.95                                                                                                                                                      
+        4219 6700.13    232.22                                                                                                                                                      
+        4220 4527.00    127.04                                                                                                                                                      
+        4221 3153.72    107.65                                                                                                                                                      
+        4222 6700.13    224.34                                                                                                                                                      
+
+20 filas seleccionadas.
+
+SQL> SELECT * FROM PERTENECE;
+
+FECHA_IN CLAVE_NOMINA CLAVE_EMPLEADO                                                                                                                                                
+-------- ------------ --------------                                                                                                                                                
+01/03/19         4203         202922                                                                                                                                                
+01/10/17         4217         204706                                                                                                                                                
+24/10/14         4205         202929                                                                                                                                                
+16/07/81         4209         202931                                                                                                                                                
+01/01/89         4215         203108                                                                                                                                                
+16/05/86         4213         204326                                                                                                                                                
+16/05/86         4208         203109                                                                                                                                                
+01/11/86         4211         203285                                                                                                                                                
+16/02/89         4205         205227                                                                                                                                                
+01/08/89         4206         204892                                                                                                                                                
+16/04/98         4203         204891                                                                                                                                                
+
+FECHA_IN CLAVE_NOMINA CLAVE_EMPLEADO                                                                                                                                                
+-------- ------------ --------------                                                                                                                                                
+01/11/90         4214         204888                                                                                                                                                
+16/03/16         4207         204707                                                                                                                                                
+01/01/91         4214         204706                                                                                                                                                
+16/05/91         4207         204705                                                                                                                                                
+16/12/91         4217         204472                                                                                                                                                
+16/06/92         4215         204445                                                                                                                                                
+01/08/92         4212         204327                                                                                                                                                
+
+18 filas seleccionadas.
+
+SQL> SELECT * FROM PRESENTALICMED;
+
+FOLIO_LICENC FECHA_IN FECHA_TE DIAGNOSTICO                                        CLAVE_MEDICO CLAVE_EMPLEADO                                                                       
+------------ -------- -------- -------------------------------------------------- ------------ --------------                                                                       
+098LM0023790 26/03/19 28/03/19 CONJUNTIVITIS PROBLABLE ORIGEN VIRAL                        687         202922                                                                       
+015LM2001672 29/03/19 31/03/19 FX DE CODO IZQUIERDO REDUCIDA DE 5 SEM.                     194         202931                                                                       
+092LM1469190 31/03/19 31/03/19 GEPI                                                         15         202922                                                                       
+098LM0031488 31/03/19 31/03/19 SINDROME NEFROTICO                                          867         202929                                                                       
+098LM0030771 26/03/19 29/03/19 EVE ISQUEMICO + TROMBOSIS EXITOSA DEL MISMO                 779         203285                                                                       
+093LM1162380 01/04/19 06/04/19 EVC ISQUEMICO + TROMBOSIS EXITOSA DEL MISMO                 379         202922                                                                       
+098LM0030607 22/03/19 28/03/19 INFECCION DE VIAS AREAS SUPERIORES AGUDA PROL.              194         203108                                                                       
+015LM1988887 21/03/19 27/03/19 POLIPO DE COLON                                              27         204326                                                                       
+098LM0024787 14/03/19 18/03/19 ESPASMO HRMIFACIAL IZQUIERDO                                 11         203108                                                                       
+094LM0639498 21/03/19 25/03/19 RINOFARINGITIS                                              865         203109                                                                       
+098LM0023267 25/03/19 29/03/19 ENFERMEDAD RENAL CRONICA                                      6         204445                                                                       
+
+FOLIO_LICENC FECHA_IN FECHA_TE DIAGNOSTICO                                        CLAVE_MEDICO CLAVE_EMPLEADO                                                                       
+------------ -------- -------- -------------------------------------------------- ------------ --------------                                                                       
+098LM0030932 01/04/19 05/04/19 CEFALITIS ACROMIOCLAVICULAR IZQUIERDA                       687         204327                                                                       
+010LM0450968 04/04/19 10/04/19 PBLE FRACTURA TOBILLO IZQUIERDO                              34         204888                                                                       
+093LM1123791 03/04/19 09/04/19 FX DE 10o ARCO COSTAL IZQ.                                  139         204472                                                                       
+098LM0017314 02/04/19 05/04/19 OTITIS MEDIA SUPERIOR OIDO DERECHO                          139         204706                                                                       
+093LM1124064 04/04/19 07/04/19 GASTROENTERITIS PB INFECCIOSA + DESHIDRATACIOn              742         203108                                                                       
+093LM1124066 02/04/19 04/04/19 COXARTROSIS IZQUIERDA GRADO IV                               89         204891                                                                       
+098LM0031905 03/04/19 07/04/19 INTOXICACION ALIMENTARIA                                    700         204892                                                                       
+015LM2050327 01/04/19 08/04/19 IURA + FARINGITIS                                            34         204705                                                                       
+
+19 filas seleccionadas.
+
+SQL> SELECT * FROM TRABAJADOR;
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        202922 FROYLAN                        DE LA TORRE     LUCAS           ASISTENTE ADMINISTRATIVO EN SALUD - A3   Coyoacan                                                     
+Karstens Hill                                      Ridge Oak Center                                   12    5512431428 fivanisov0@chicagotribune.com       41000                    
+                                                                                                                                                                                    
+        202929 IRMA                           RUIZ            ESPEJEL         ENFERMERA JEFE DE SERVICIO               Tlalpan                                                      
+Ridgeview Plaza                                    Larry Way                                          32    5545169157 bbullingham1@nasa.gov                5200                    
+                                                                                                                                                                                    
+        202931 FRANCISCO                      OLVERA          FLORES          AUXILIAR DE ENFERMERIA "B"               Milpa Alta                                                   
+Ryan Circle                                        Orin Pass                                          45    5511591619 eselby2@angelfire.com               40000                    
+                                                                                                                                                                                    
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        203108 VICTORIA                       MARRON          DORDELLY        ENFERMERA JEFE DE SERVICIO               Xochimilco                                                   
+Blaine Road                                        Golden Leaf Junction                               678   5569753329 tfierro3@studiopress.com            14300                    
+                                                                                                                                                                                    
+        203109 SANDRA                         LUZ             FONSECA         APOYO ADMINISTRATIVO EN SALUD - A5       Alvaro Obregon                                               
+Mayer Pass                                         Troy Place                                         542   5549975103 pswithenby4@smugmug.com              4240                    
+                                                                                                                                                                                    
+        203285 LILIA                          MANZANILLA      NIETO           APOYO ADMINISTRATIVO EN SALUD - A4       Tlalpan                                                      
+Pond Point                                         Anderson Way                                       3     5516390583 rlackinton5@ocn.ne.jp               15550                    
+                                                                                                                                                                                    
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        203568 LUZ ADELINA                    ZAVALA          PEREZ           ENFERMERA ESPECIALISTA "B"               Xochimilco                                                   
+Kenwood Lane                                       Bartillon Circle                                   3     5566211657 ameharry6@netvibes.com               6400                    
+                                                                                                                                                                                    
+        204326 LUZ MARIA                      GUADARRAMA      BAUTISTA        MEDICO ESPECIALISTA "B"                  Coyoacan                                                     
+Meadow Valley Drive                                Washington Avenue                                  54    5527412357 ctrudgian7@gizmodo.com               7210                    
+                                                                                                                                                                                    
+        204327 PINITO                         DAMIAN          DIAZ            CAMILLERO                                Iztapalapa                                                   
+Talmadge Road                                      Havey Pass                                         78    5532248480 flukacs8@clickbank.net              10042                    
+                                                                                                                                                                                    
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        204445 CIRILO                         TORRES          ABONZA          MEDICO ESPECIALISTA "B"                  Gustavo A. Madero                                            
+Loomis Junction                                    Moland Center                                      34    5581311806 smonard9@cafepress.com               7380                    
+                                                                                                                                                                                    
+        204472 MARCO ANTONIO                  SANCHEZ         ABONZA          LABORATORISTA "A"                        Tlalpan                                                      
+Melody Way                                         Rigney Point                                       8     5588679558 ishildrakea@wsj.com                  7300                    
+                                                                                                                                                                                    
+        204705 MARIA ISABEL                   RAMIREZ         RUFINO          MEDICO JEFE DE SERVICIO                  Alvaro Obregon                                               
+Calypso Terrace                                    Golden Leaf Hill                                   55    5527247750 sprodrickb@wordpress.com             2600                    
+                                                                                                                                                                                    
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        204706 GLORIA MARTHA                  ARABI           GUZMAN          APOYO ADMINISTRATIVO EN SALUD - A4       Gustavo A. Madero                                            
+Nevada Terrace                                     Tomscot Park                                       36    5574715388 mashleec@ucla.edu                    1200                    
+                                                                                                                                                                                    
+        204707 AGUSTIN                        MARTINEZ        MENDEZ          APOYO ADMINISTRATIVO EN SALUD - A3       Benito Juarez                                                
+Merry Pass                                         School Avenue                                      84    5545329635 tmatuskiewiczd@newsvine.com          3300                    
+                                                                                                                                                                                    
+        204888 MOISES                         ACOSTA          LORENZO         LABORATORISTA "A"                        Alvaro Obregon                                               
+Lien Hill                                          Fordem Lane                                        56    5565109430 pbaudichone@globo.com                9700                    
+                                                                                                                                                                                    
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        204891 ROSARIO                        ESPINOSA        ALTAMIRANO      ENFERMERA ESPECIALISTA "B"               Benito Juarez                                                
+Utah Park                                          Scofield Parkway                                   98    5577915849 bbraundtf@163.com                   41000                    
+                                                                                                                                                                                    
+        204892 MARIA EUGENIA                  HERNANDEZ       GONZALEZ PLIEGO ENFERMERA GENERAL TITULADA "B"           Benito Juarez                                                
+Maple Drive                                        Bartelt Crossing                                   65    5567929961 mdekeyserg@google.com               10042                    
+                                                                                                                                                                                    
+        205227 MARIA DE LOS ANGELES           REYES           ESPEJEL         TERAPISTA                                Tlalpan                                                      
+Boyd Circle                                        Mayfield Place                                     789   5595293162 iabrahamo@creativecommons.org        7210                    
+                                                                                                                                                                                    
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     ESPECIALIDAD                             DELEGACIONT                                                  
+-------------- ------------------------------ --------------- --------------- ---------------------------------------- --------------------                                         
+COLONIAT                                           CALLET                                             NUMER   TELEFONO EMAIL                          CLAVE_AREA                    
+-------------------------------------------------- -------------------------------------------------- ----- ---------- ------------------------------ ----------                    
+        205866 DIVINA ELEN                    PALMA           GUADARRAMA      MEDICO JEFE DE SERVICIO                  Coyoacan                                                     
+Crownhardt Crossing                                Monument Park                                      88    5508876222 cstolli@cnet.com                     9650                    
+                                                                                                                                                                                    
+        206164 LUZ MARIA                      SALINAS         PEREZ           ENFERMERA GENERAL TITULADA "B"           Iztapalapa                                                   
+Myrtle Drive                                       David Place                                        66    5511308718 htrencherj@google.es                 4240                    
+                                                                                                                                                                                    
+
+20 filas seleccionadas.
+
+SQL> 

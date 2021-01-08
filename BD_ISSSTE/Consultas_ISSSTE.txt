@@ -1,0 +1,102 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> -- CONSULTA CLAVE DE TRABAJADORES CON LICENCIA MEDICA ENTRE FECHA 1 Y FECHA 2
+SQL> SELECT clave_empleado FROM presentalicmed
+  2   WHERE fecha_inicioL>='01/03/19'
+  3   AND fecha_terminoL<='30/04/19';
+
+CLAVE_EMPLEADO                                                                                                                                                                      
+--------------                                                                                                                                                                      
+        202922                                                                                                                                                                      
+        202931                                                                                                                                                                      
+        202922                                                                                                                                                                      
+        202929                                                                                                                                                                      
+        203285                                                                                                                                                                      
+        202922                                                                                                                                                                      
+        203108                                                                                                                                                                      
+        204326                                                                                                                                                                      
+        203108                                                                                                                                                                      
+        203109                                                                                                                                                                      
+        204445                                                                                                                                                                      
+
+CLAVE_EMPLEADO                                                                                                                                                                      
+--------------                                                                                                                                                                      
+        204327                                                                                                                                                                      
+        204888                                                                                                                                                                      
+        204472                                                                                                                                                                      
+        204706                                                                                                                                                                      
+        203108                                                                                                                                                                      
+        204891                                                                                                                                                                      
+        204892                                                                                                                                                                      
+        204705                                                                                                                                                                      
+
+19 filas seleccionadas.
+
+SQL> -- BUSCA EL MÉDICO DEL FOLIO DE LICENCIA MEDICA
+SQL> SELECT nom_pilaM, ap_paternoM, ap_maternoM FROM MEDICO WHERE clave_medico=(SELECT clave_medico
+  2  FROM presentaLicMed WHERE folio_licencia='015LM2050327');
+
+NOM_PILAM                      AP_PATERNOM     AP_MATERNOM                                                                                                                          
+------------------------------ --------------- ---------------                                                                                                                      
+Gabino                         Cruz                                                                                                                                                 
+
+SQL> -- BUSCA TRABAJADOR DEL FOLIO DE LICENCIA MEDICA
+SQL> SELECT nom_pilat, ap_paternot, ap_maternot
+  2  FROM trabajador WHERE clave_empleado=(SELECT clave_empleado
+  3  FROM presentalicmed WHERE folio_licencia='098LM0017314');
+
+NOM_PILAT                      AP_PATERNOT     AP_MATERNOT                                                                                                                          
+------------------------------ --------------- ---------------                                                                                                                      
+GLORIA MARTHA                  ARABI           GUZMAN                                                                                                                               
+
+SQL> -- BUSCA HOSPITAL EN DONDE SE UBICA EL MEDICO QUE HIZO LA LICENCIA MEDICA
+SQL> SELECT nombreh FROM hospital WHERE id_hospital=(SELECT id_hospital
+  2  FROM medico WHERE nom_pilam='Carlos'
+  3  AND ap_paternom='Vazquez' AND ap_maternom='Lopez');
+
+NOMBREH                                                                                                                                                                             
+--------------------------------------------------                                                                                                                                  
+Xochimilco                                                                                                                                                                                                                                                                                                                                           
+
+SQL> -- BUSCA EL AREA EN DONDE LABORA EL TRABAJADOR
+SQL> SELECT nombrea FROM area WHERE clave_area=(SELECT clave_area
+  2  FROM trabajador WHERE nom_pilat='MARIA ISABEL'
+  3  AND ap_paternot='RAMIREZ' AND ap_maternot='RUFINO');
+
+NOMBREA                                                                                                                                                                             
+--------------------------------------------------                                                                                                                                  
+ADMISION Y EGRESOS                                                                                                                                                                  
+                                                                                                                                                            
+SQL> -- BUSCA LA FECHA DE INICIO DEL TRABAJADOR
+SQL> SELECT fecha_iniciot FROM pertenece
+  2  WHERE clave_empleado=(SELECT clave_empleado
+  3  FROM trabajador WHERE nom_pilat='SANDRA'
+  4  AND ap_paternot='LUZ' AND ap_maternot='FONSECA');
+
+FECHA_IN                                                                                                                                                                            
+--------                                                                                                                                                                            
+16/05/86                                                                                                                                                                            
+
+SQL> -- BUSCA EL SALARIO QUE TIENE UN TRABAJADOR 
+SQL> SELECT salario FROM nomina WHERE clave_nomina=(SELECT clave_nomina
+  2  FROM pertenece WHERE clave_empleado=(SELECT clave_empleado
+  3  FROM trabajador WHERE nom_pilat='MARCO ANTONIO'
+  4  AND ap_paternot='SANCHEZ' AND ap_maternot='ABONZA'));
+
+SALARIO                                                                                                                                                                             
+----------                                                                                                                                                                          
+153.72                                                                                                                                                                              
+
+SQL> -- BUSCA DEDUCCIONES QUE PRESENTA POR SEGURO MÉDICO EL TRABAJADOR
+SQL> SELECT deducciones_seguromedico FROM nomina
+  2  WHERE clave_nomina=(SELECT clave_nomina FROM pertenece
+  3  WHERE clave_empleado=(SELECT clave_empleado FROM trabajador
+  4  WHERE nom_pilat='AGUSTIN' AND ap_paternot='MARTINEZ'
+  5  AND ap_maternot='MENDEZ'));
+
+DEDUCCIONE                                                                                                                                                                          
+----------                                                                                                                                                                          
+153.85                                                                                                                                                                              
+
+SQL> 

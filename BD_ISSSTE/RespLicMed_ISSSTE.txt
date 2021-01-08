@@ -1,0 +1,40 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> CREATE TABLE RespaldoLicMed (
+  2   fecha date,
+  3   usuario VARCHAR(10),
+  4   folio_licencia       CHAR(12) NOT NULL ,
+  5   diagnostico          CHAR(50) NOT NULL ,
+  6   clave_medico         NUMBER(3)
+  7   );
+
+Tabla creada.
+
+SQL> CREATE OR REPLACE TRIGGER RespaldoLicMed
+  2  BEFORE INSERT ON presentaLicMed
+  3  FOR EACH ROW
+  4      BEGIN
+  5          INSERT INTO RespaldoLicMed VALUES(sysdate,USER,:NEW.folio_licencia,
+  6   :NEW.diagnostico,:NEW.clave_medico);
+  7   END RespaldoLicMed;
+  8  /
+
+Disparador creado.
+
+SQL> insert into presentaLicMed values('098LM0031900','03/04/20','07/04/20','INTOXICACION ALIMENTARIA','700','204892');
+
+1 fila creada.
+
+SQL> insert into presentaLicMed values('098LM0031901','03/05/20','07/05/20','INTOXICACION ALIMENTARIA','700','204892');
+
+1 fila creada.
+
+SQL> SELECT * FROM RespaldoLicMed;
+
+FECHA    USUARIO    FOLIO_LICENC DIAGNOSTICO                                        CLAVE_MEDICO                                                                                    
+-------- ---------- ------------ -------------------------------------------------- ------------                                                                                    
+04/06/20 ISSSTE     098LM0031900 INTOXICACION ALIMENTARIA                                    700                                                                                    
+04/06/20 ISSSTE     098LM0031901 INTOXICACION ALIMENTARIA                                    700                                                                                    
+
+SQL> 

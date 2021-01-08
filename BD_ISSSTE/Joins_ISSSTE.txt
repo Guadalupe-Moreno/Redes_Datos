@@ -1,0 +1,230 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> -- Se muestra el nombre del hospital su identificador, así como el identificador del médico y su nombre de pila
+SQL> -- Se muestra el nombre del hospital su identificador,
+SQL> -- así como el identificador del médico y su nombre de pila
+SQL> SELECT
+  2       h.id_hospital hospital,
+  3       nombreh nombre_hospital,
+  4       m.CLAVE_MEDICO id_medico,
+  5       NOM_PILAM nombre_pila
+  6       FROM
+  7           hospital h
+  8       RIGHT JOIN medico m
+  9       ON h.id_hospital = m.id_hospital;
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        11 1 de Octubre                                                6 Gabriela                                                                                                   
+        11 1 de Octubre                                               11 Jorge                                                                                                      
+        11 1 de Octubre                                              379 Abraham                                                                                                    
+        15 Clinica de Especialidades Indianilla                       15 Maria del Rosario                                                                                          
+        18 5 de Febrero                                              139                                                                                                            
+        18 5 de Febrero                                              867 Gustavo                                                                                                    
+        27 Lic. Adolfo Lopez Mateos                                  791 Astrid                                                                                                     
+        27 Lic. Adolfo Lopez Mateos                                   63 Miguel                                                                                                     
+        30 Dr. Dario Fernandez Fierro                                 27                                                                                                            
+        35 Del Valle                                                 194 Maria del Carmen                                                                                           
+        37 Division del Norte                                         18 Ma. Alejandra                                                                                              
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        37 Division del Norte                                         34 Gabino                                                                                                     
+        46 Tlalpan                                                   737 Angel                                                                                                      
+        46 Tlalpan                                                   700 Veronica                                                                                                   
+        47 Villa Alvaro Obregon                                      687 Alfonso                                                                                                    
+        47 Villa Alvaro Obregon                                      779 Beatriz                                                                                                    
+        50 Xochimilco                                                 89 Carlos                                                                                                     
+        51 Gral. Ignacio Zaragoza                                    742 Norma                                                                                                      
+        51 Gral. Ignacio Zaragoza                                    865 Jorge Anselmo                                                                                              
+        55 Jose Maria Morelos y Pavon                                735 David                                                                                                      
+
+20 filas seleccionadas.
+
+SQL> -- Para éste caso se rebelo los identificadores de los médicos y del hospital,
+SQL> -- dando preferencia a lo que podemos encontrar en la tabla de la derecha
+
+SQL> SELECT
+  2        h.id_hospital hospit,
+  3        m.id_hospital id_med,
+  4        m.id_hospital medico
+  5        FROM
+  6             hospital h
+  7        RIGHT JOIN medico m
+  8        ON h.id_hospital = m.id_hospital;
+
+    HOSPIT     ID_MED     MEDICO                                                                                                                                                    
+---------- ---------- ----------                                                                                                                                                    
+        11         11         11                                                                                                                                                    
+        30         30         30                                                                                                                                                    
+        35         35         35                                                                                                                                                    
+        15         15         15                                                                                                                                                    
+        27         27         27                                                                                                                                                    
+        18         18         18                                                                                                                                                    
+        11         11         11                                                                                                                                                    
+        47         47         47                                                                                                                                                    
+        51         51         51                                                                                                                                                    
+        37         37         37                                                                                                                                                    
+        11         11         11                                                                                                                                                    
+
+    HOSPIT     ID_MED     MEDICO                                                                                                                                                    
+---------- ---------- ----------                                                                                                                                                    
+        47         47         47                                                                                                                                                    
+        37         37         37                                                                                                                                                    
+        51         51         51                                                                                                                                                    
+        18         18         18                                                                                                                                                    
+        27         27         27                                                                                                                                                    
+        55         55         55                                                                                                                                                    
+        50         50         50                                                                                                                                                    
+        46         46         46                                                                                                                                                    
+        46         46         46                                                                                                                                                    
+
+20 filas seleccionadas.
+
+SQL> -- Muestra el nombre de los hospitales junto con el nombre de pila de los médicos
+SQL> -- y sus respectivos identificadores pero se enfoca y da prioridad a las localidades
+SQL> -- de la tabla de lado izquierdo, en este caso el remarca más el nombre de los hospiutales
+SQL> -- que no tiene registro de ninún médico.
+SQL> SELECT
+  2        h.id_hospital hospital,
+  3        nombreh nombre_hospital,
+  4        m.CLAVE_MEDICO id_medico,
+  5        NOM_PILAM nombre_pila
+  6        FROM
+  7            hospital h
+  8        LEFT JOIN medico m
+  9        ON h.id_hospital = m.id_hospital;
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        11 1 de Octubre                                              379 Abraham                                                                                                    
+        30 Dr. Dario Fernandez Fierro                                 27                                                                                                            
+        35 Del Valle                                                 194 Maria del Carmen                                                                                           
+        15 Clinica de Especialidades Indianilla                       15 Maria del Rosario                                                                                          
+        27 Lic. Adolfo Lopez Mateos                                   63 Miguel                                                                                                     
+        18 5 de Febrero                                              867 Gustavo                                                                                                    
+        11 1 de Octubre                                               11 Jorge                                                                                                      
+        47 Villa Alvaro Obregon                                      779 Beatriz                                                                                                    
+        51 Gral. Ignacio Zaragoza                                    865 Jorge Anselmo                                                                                              
+        37 Division del Norte                                         34 Gabino                                                                                                     
+        11 1 de Octubre                                                6 Gabriela                                                                                                   
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        47 Villa Alvaro Obregon                                      687 Alfonso                                                                                                    
+        37 Division del Norte                                         18 Ma. Alejandra                                                                                              
+        51 Gral. Ignacio Zaragoza                                    742 Norma                                                                                                      
+        18 5 de Febrero                                              139                                                                                                            
+        27 Lic. Adolfo Lopez Mateos                                  791 Astrid                                                                                                     
+        55 Jose Maria Morelos y Pavon                                735 David                                                                                                      
+        50 Xochimilco                                                 89 Carlos                                                                                                     
+        46 Tlalpan                                                   700 Veronica                                                                                                   
+        46 Tlalpan                                                   737 Angel                                                                                                      
+        44 Milpa Alta                                                                                                                                                               
+        41 Fuentes Brotantes                                                                                                                                                        
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        21 Dr. Javier Dominguez Estrada                                                                                                                                             
+        32 Churubusco                                                                                                                                                               
+        45 Narvarte                                                                                                                                                                 
+        33 Coyoacan                                                                                                                                                                 
+        20 Aragon                                                                                                                                                                   
+        39 Dr. Ignacio Chavez                                                                                                                                                       
+
+28 filas seleccionadas.
+
+SQL> -- Para estas consultas se muestran el identificador del hospital, como el nombre del hospita, 
+SQL> -- junto con el identificador como su nombre de pila pero la característica principal 
+SQL> -- que pone exclusivamente las coincidencias que hay en ambas tablas.
+SQL> SELECT
+  2        h.id_hospital hospital,
+  3        nombreh nombre_hospital,
+  4        m.CLAVE_MEDICO id_medico,
+  5        NOM_PILAM nombre_pila
+  6        FROM
+  7            hospital h
+  8        INNER JOIN medico m
+  9        ON h.id_hospital = m.id_hospital;
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        11 1 de Octubre                                              379 Abraham                                                                                                    
+        30 Dr. Dario Fernandez Fierro                                 27                                                                                                            
+        35 Del Valle                                                 194 Maria del Carmen                                                                                           
+        15 Clinica de Especialidades Indianilla                       15 Maria del Rosario                                                                                          
+        27 Lic. Adolfo Lopez Mateos                                   63 Miguel                                                                                                     
+        18 5 de Febrero                                              867 Gustavo                                                                                                    
+        11 1 de Octubre                                               11 Jorge                                                                                                      
+        47 Villa Alvaro Obregon                                      779 Beatriz                                                                                                    
+        51 Gral. Ignacio Zaragoza                                    865 Jorge Anselmo                                                                                              
+        37 Division del Norte                                         34 Gabino                                                                                                     
+        11 1 de Octubre                                                6 Gabriela                                                                                                   
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        47 Villa Alvaro Obregon                                      687 Alfonso                                                                                                    
+        37 Division del Norte                                         18 Ma. Alejandra                                                                                              
+        51 Gral. Ignacio Zaragoza                                    742 Norma                                                                                                      
+        18 5 de Febrero                                              139                                                                                                            
+        27 Lic. Adolfo Lopez Mateos                                  791 Astrid                                                                                                     
+        55 Jose Maria Morelos y Pavon                                735 David                                                                                                      
+        50 Xochimilco                                                 89 Carlos                                                                                                     
+        46 Tlalpan                                                   700 Veronica                                                                                                   
+        46 Tlalpan                                                   737 Angel                                                                                                      
+
+20 filas seleccionadas.
+
+SQL> -- Para esta última sentencia de JOIN se uso el FULL OUTER que muestra todos los datos
+SQL> -- de todas las tablas involucradas.
+SQL> SELECT
+  2        h.id_hospital hospital,
+  3        nombreh nombre_hospital,
+  4        m.CLAVE_MEDICO id_medico,
+  5        NOM_PILAM nombre_pila
+  6        FROM
+  7            hospital h
+  8        FULL OUTER JOIN medico m
+  9        ON h.id_hospital = m.id_hospital;
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        11 1 de Octubre                                              379 Abraham                                                                                                    
+        30 Dr. Dario Fernandez Fierro                                 27                                                                                                            
+        35 Del Valle                                                 194 Maria del Carmen                                                                                           
+        15 Clinica de Especialidades Indianilla                       15 Maria del Rosario                                                                                          
+        27 Lic. Adolfo Lopez Mateos                                   63 Miguel                                                                                                     
+        18 5 de Febrero                                              867 Gustavo                                                                                                    
+        11 1 de Octubre                                               11 Jorge                                                                                                      
+        47 Villa Alvaro Obregon                                      779 Beatriz                                                                                                    
+        51 Gral. Ignacio Zaragoza                                    865 Jorge Anselmo                                                                                              
+        37 Division del Norte                                         34 Gabino                                                                                                     
+        11 1 de Octubre                                                6 Gabriela                                                                                                   
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        47 Villa Alvaro Obregon                                      687 Alfonso                                                                                                    
+        37 Division del Norte                                         18 Ma. Alejandra                                                                                              
+        51 Gral. Ignacio Zaragoza                                    742 Norma                                                                                                      
+        18 5 de Febrero                                              139                                                                                                            
+        27 Lic. Adolfo Lopez Mateos                                  791 Astrid                                                                                                     
+        55 Jose Maria Morelos y Pavon                                735 David                                                                                                      
+        50 Xochimilco                                                 89 Carlos                                                                                                     
+        46 Tlalpan                                                   700 Veronica                                                                                                   
+        46 Tlalpan                                                   737 Angel                                                                                                      
+        44 Milpa Alta                                                                                                                                                               
+        41 Fuentes Brotantes                                                                                                                                                        
+
+  HOSPITAL NOMBRE_HOSPITAL                                     ID_MEDICO NOMBRE_PILA                                                                                                
+---------- -------------------------------------------------- ---------- ------------------------------                                                                             
+        21 Dr. Javier Dominguez Estrada                                                                                                                                             
+        32 Churubusco                                                                                                                                                               
+        45 Narvarte                                                                                                                                                                 
+        33 Coyoacan                                                                                                                                                                 
+        20 Aragon                                                                                                                                                                   
+        39 Dr. Ignacio Chavez                                                                                                                                                       
+
+28 filas seleccionadas.
+
+SQL> 

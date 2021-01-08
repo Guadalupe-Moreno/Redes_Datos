@@ -1,0 +1,68 @@
+CREATE TABLE BitacoraLicMed (
+  2   fecha date,
+  3   usuario VARCHAR(10),
+  4   accion char(1),
+  5   folio_licenciaAnterior       CHAR(12) ,
+  6   diagnosticoAnterior          CHAR(50) ,
+  7   folio_licenciaNueva          CHAR(12) ,
+  8   diagnosticoNuevo             CHAR(50)
+  9   );
+
+Tabla creada.
+
+SQL> CREATE OR REPLACE TRIGGER CambioLicMed
+  2  BEFORE INSERT OR UPDATE OR DELETE ON presentaLicMed
+  3  FOR EACH ROW
+  4  DECLARE
+  5      accion CHAR(1);
+  6      BEGIN
+  7      IF INSERTING  THEN
+  8           accion:='I';
+  9          ELSIF UPDATING THEN
+ 10            accion:='U';
+ 11          ELSE
+ 12            accion:='D';
+ 13          END IF;
+ 14  INSERT INTO BitacoraLicMed VALUES(sysdate,USER,accion, :OLD.folio_licencia,:OLD.diagnostico,
+ 15          :NEW.folio_licencia,:NEW.diagnostico);
+ 16        dbms_oUTPUT.PUT_LINE('Modificacion realizada: '|| sysdate);
+ 17        END CambioLicMed;
+ 18  /
+
+Disparador creado.
+
+SQL> delete presentaLicMed where folio_licencia='098LM0031905';
+
+1 fila suprimida.
+
+SQL> set line 180;
+SQL> SELECT * FROM BitacoraLicMed;
+
+FECHA    USUARIO    A FOLIO_LICENC DIAGNOSTICOANTERIOR                                FOLIO_LICENC DIAGNOSTICONUEVO                                                                 
+-------- ---------- - ------------ -------------------------------------------------- ------------ --------------------------------------------------                               
+26/05/20 ISSSTE     D 098LM0031905 INTOXICACION ALIMENTARIA                                                                                                                         
+
+SQL> insert into presentaLicMed values('098LM0031905','03/04/19','07/04/19','INTOXICACION ALIMENTARIA','700','204892');
+
+1 fila creada.
+
+SQL> SELECT * FROM BitacoraLicMed;
+
+FECHA    USUARIO    A FOLIO_LICENC DIAGNOSTICOANTERIOR                                FOLIO_LICENC DIAGNOSTICONUEVO                                                                                     
+-------- ---------- - ------------ -------------------------------------------------- ------------ --------------------------------------------------                                                   
+26/05/20 ISSSTE     D 098LM0031905 INTOXICACION ALIMENTARIA                                                                                                                                             
+26/05/20 ISSSTE     I                                                                 098LM0031905 INTOXICACION ALIMENTARIA                                                                             
+
+SQL> update presentaLicMed set diagnostico='FRACTURA DE TOBILLO IZQUIERDO WEBER A' WHERE folio_licencia='098LM0031905';
+
+1 fila actualizada.
+
+SQL> SELECT * FROM BitacoraLicMed;
+
+FECHA    USUARIO    A FOLIO_LICENC DIAGNOSTICOANTERIOR                                FOLIO_LICENC DIAGNOSTICONUEVO                                                                                     
+-------- ---------- - ------------ -------------------------------------------------- ------------ --------------------------------------------------                                                   
+26/05/20 ISSSTE     D 098LM0031905 INTOXICACION ALIMENTARIA                                                                                                                                             
+26/05/20 ISSSTE     I                                                                 098LM0031905 INTOXICACION ALIMENTARIA                                                                             
+26/05/20 ISSSTE     U 098LM0031905 INTOXICACION ALIMENTARIA                           098LM0031905 FRACTURA DE TOBILLO IZQUIERDO WEBER A                                                                
+
+SQL> 

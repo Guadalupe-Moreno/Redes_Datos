@@ -1,0 +1,68 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> -- Se selecionaron el nombre y apellido de todos los empleados
+SQL> -- junto con su diagnostico de cada uno dentro del hospital.
+SQL> select t.nom_pilat, ap_paternot, ap_maternot, diagnostico from trabajador t, presentalicmed l
+  2  where t.clave_empleado=l.clave_empleado;
+
+NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     DIAGNOSTICO                                                                                                          
+------------------------------ --------------- --------------- --------------------------------------------------                                                                   
+FROYLAN                        DE LA TORRE     LUCAS           EVC ISQUEMICO + TROMBOSIS EXITOSA DEL MISMO                                                                          
+FROYLAN                        DE LA TORRE     LUCAS           GEPI                                                                                                                 
+FROYLAN                        DE LA TORRE     LUCAS           CONJUNTIVITIS PROBLABLE ORIGEN VIRAL                                                                                 
+IRMA                           RUIZ            ESPEJEL         SINDROME NEFROTICO                                                                                                   
+FRANCISCO                      OLVERA          FLORES          FX DE CODO IZQUIERDO REDUCIDA DE 5 SEM.                                                                              
+VICTORIA                       MARRON          DORDELLY        GASTROENTERITIS PB INFECCIOSA + DESHIDRATACIOn                                                                       
+VICTORIA                       MARRON          DORDELLY        ESPASMO HRMIFACIAL IZQUIERDO                                                                                         
+VICTORIA                       MARRON          DORDELLY        INFECCION DE VIAS AREAS SUPERIORES AGUDA PROL.                                                                       
+SANDRA                         LUZ             FONSECA         RINOFARINGITIS                                                                                                       
+LILIA                          MANZANILLA      NIETO           EVE ISQUEMICO + TROMBOSIS EXITOSA DEL MISMO                                                                          
+LUZ MARIA                      GUADARRAMA      BAUTISTA        POLIPO DE COLON                                                                                                      
+
+NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     DIAGNOSTICO                                                                                                          
+------------------------------ --------------- --------------- --------------------------------------------------                                                                   
+PINITO                         DAMIAN          DIAZ            CEFALITIS ACROMIOCLAVICULAR IZQUIERDA                                                                                
+CIRILO                         TORRES          ABONZA          ENFERMEDAD RENAL CRONICA                                                                                             
+MARCO ANTONIO                  SANCHEZ         ABONZA          FX DE 10o ARCO COSTAL IZQ.                                                                                           
+MARIA ISABEL                   RAMIREZ         RUFINO          IURA + FARINGITIS                                                                                                    
+GLORIA MARTHA                  ARABI           GUZMAN          OTITIS MEDIA SUPERIOR OIDO DERECHO                                                                                   
+MOISES                         ACOSTA          LORENZO         PBLE FRACTURA TOBILLO IZQUIERDO                                                                                      
+ROSARIO                        ESPINOSA        ALTAMIRANO      COXARTROSIS IZQUIERDA GRADO IV                                                                                       
+MARIA EUGENIA                  HERNANDEZ       GONZALEZ PLIEGO INTOXICACION ALIMENTARIA                                                                                             
+
+19 filas seleccionadas.
+
+SQL> -- Se muestran el nombre, apellidos y nombre del área de los trabajadores.
+SQL> select t.nom_pilat, ap_paternot, ap_maternot, nombreA from trabajador t, area a
+  2  where t.clave_area=a.clave_area;
+
+NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     NOMBREA                                                                                                              
+------------------------------ --------------- --------------- --------------------------------------------------                                                                   
+ROSARIO                        ESPINOSA        ALTAMIRANO      SUBDIRECCION MEDICA                                                                                                  
+FROYLAN                        DE LA TORRE     LUCAS           SUBDIRECCION MEDICA                                                                                                  
+FRANCISCO                      OLVERA          FLORES          DIRECCION                                                                                                            
+AGUSTIN                        MARTINEZ        MENDEZ          COORD. DE ENSENANZA E INVESTIGACION                                                                                  
+MOISES                         ACOSTA          LORENZO         ARCHIVO CLINICO                                                                                                      
+VICTORIA                       MARRON          DORDELLY        FARMACIA                                                                                                             
+GLORIA MARTHA                  ARABI           GUZMAN          ASISTENCIA DE LA DIRECCION                                                                                           
+IRMA                           RUIZ            ESPEJEL         GINECOLOGIA Y PERINATOLOGIA                                                                                          
+MARIA ISABEL                   RAMIREZ         RUFINO          ADMISION Y EGRESOS                                                                                                   
+MARCO ANTONIO                  SANCHEZ         ABONZA          CIRUGIA GENERAL                                                                                                      
+LUZ MARIA                      SALINAS         PEREZ           ALERGOLOGIA                                                                                                          
+
+NOM_PILAT                      AP_PATERNOT     AP_MATERNOT     NOMBREA                                                                                                              
+------------------------------ --------------- --------------- --------------------------------------------------                                                                   
+SANDRA                         LUZ             FONSECA         ALERGOLOGIA                                                                                                          
+LILIA                          MANZANILLA      NIETO           CAMILLEROS                                                                                                           
+LUZ ADELINA                    ZAVALA          PEREZ           PEDIATRIA                                                                                                            
+MARIA DE LOS ANGELES           REYES           ESPEJEL         ANGIOLOGIA                                                                                                           
+LUZ MARIA                      GUADARRAMA      BAUTISTA        ANGIOLOGIA                                                                                                           
+DIVINA ELEN                    PALMA           GUADARRAMA      MEDICINA FISICA Y REHABILITACION                                                                                     
+MARIA EUGENIA                  HERNANDEZ       GONZALEZ PLIEGO MANTENIMIENTO ESPECIALIZADO                                                                                          
+PINITO                         DAMIAN          DIAZ            MANTENIMIENTO ESPECIALIZADO                                                                                          
+CIRILO                         TORRES          ABONZA          ODONTOLOGIA ESPECIALIZADA                                                                                            
+
+20 filas seleccionadas.
+
+SQL> 

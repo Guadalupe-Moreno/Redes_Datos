@@ -1,0 +1,141 @@
+show user
+USER es "ISSSTE"
+SQL> set line 180;
+SQL> -- Creamos una vista que nos muestre unicamente
+SQL> -- la clave y el nombre del empleado.
+SQL> CREATE OR REPLACE VIEW DatosTrabajador AS
+  2  SELECT CLAVE_EMPLEADO, NOM_PILAT, AP_PATERNOT, AP_MATERNOT FROM TRABAJADOR;
+
+Vista creada.
+
+SQL> --Visualizar la estructura de la vista
+SQL> DESCRIBE DatosTrabajador;
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_EMPLEADO                                                                                        NOT NULL NUMBER(6)
+ NOM_PILAT                                                                                             NOT NULL CHAR(30)
+ AP_PATERNOT                                                                                                    CHAR(15)
+ AP_MATERNOT                                                                                                    CHAR(15)
+
+SQL> -- Mostrar el contenido de la vista DatosTrabajador
+SQL> SELECT * FROM DatosTrabajador;
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT                                                                                                           
+-------------- ------------------------------ --------------- ---------------                                                                                                       
+        202922 FROYLAN                        DE LA TORRE     LUCAS                                                                                                                 
+        202929 IRMA                           RUIZ            ESPEJEL                                                                                                               
+        202931 FRANCISCO                      OLVERA          FLORES                                                                                                                
+        203108 VICTORIA                       MARRON          DORDELLY                                                                                                              
+        203109 SANDRA                         LUZ             FONSECA                                                                                                               
+        203285 LILIA                          MANZANILLA      NIETO                                                                                                                 
+        203568 LUZ ADELINA                    ZAVALA          PEREZ                                                                                                                 
+        204326 LUZ MARIA                      GUADARRAMA      BAUTISTA                                                                                                              
+        204327 PINITO                         DAMIAN          DIAZ                                                                                                                  
+        204445 CIRILO                         TORRES          ABONZA                                                                                                                
+        204472 MARCO ANTONIO                  SANCHEZ         ABONZA                                                                                                                
+
+CLAVE_EMPLEADO NOM_PILAT                      AP_PATERNOT     AP_MATERNOT                                                                                                           
+-------------- ------------------------------ --------------- ---------------                                                                                                       
+        204705 MARIA ISABEL                   RAMIREZ         RUFINO                                                                                                                
+        204706 GLORIA MARTHA                  ARABI           GUZMAN                                                                                                                
+        204707 AGUSTIN                        MARTINEZ        MENDEZ                                                                                                                
+        204888 MOISES                         ACOSTA          LORENZO                                                                                                               
+        204891 ROSARIO                        ESPINOSA        ALTAMIRANO                                                                                                            
+        204892 MARIA EUGENIA                  HERNANDEZ       GONZALEZ PLIEGO                                                                                                       
+        205227 MARIA DE LOS ANGELES           REYES           ESPEJEL                                                                                                               
+        205866 DIVINA ELEN                    PALMA           GUADARRAMA                                                                                                            
+        206164 LUZ MARIA                      SALINAS         PEREZ                                                                                                                 
+
+20 filas seleccionadas.
+
+SQL> -- Creamos una vista que nos muestre unicamente
+SQL> -- la clave y el nombre del Hospital.
+SQL> CREATE OR REPLACE VIEW DatosHospital AS
+  2  SELECT ID_HOSPITAL, NOMBREH FROM HOSPITAL;
+
+Vista creada.
+
+SQL> --Visualizar la estructura de la vista
+SQL> DESCRIBE DatosHospital;
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ ID_HOSPITAL                                                                                           NOT NULL NUMBER(3)
+ NOMBREH                                                                                               NOT NULL CHAR(50)
+
+SQL> -- Mostrar el contenido de la vista DatosTrabajador
+SQL> SELECT * FROM DatosHospital;
+
+ID_HOSPITAL NOMBREH                                                                                                                                                                 
+----------- --------------------------------------------------                                                                                                                      
+         11 1 de Octubre                                                                                                                                                            
+         15 Clinica de Especialidades Indianilla                                                                                                                                    
+         18 5 de Febrero                                                                                                                                                            
+         20 Aragon                                                                                                                                                                  
+         21 Dr. Javier Dominguez Estrada                                                                                                                                            
+         27 Lic. Adolfo Lopez Mateos                                                                                                                                                
+         30 Dr. Dario Fernandez Fierro                                                                                                                                              
+         32 Churubusco                                                                                                                                                              
+         33 Coyoacan                                                                                                                                                                
+         35 Del Valle                                                                                                                                                               
+         37 Division del Norte                                                                                                                                                      
+
+ID_HOSPITAL NOMBREH                                                                                                                                                                 
+----------- --------------------------------------------------                                                                                                                      
+         39 Dr. Ignacio Chavez                                                                                                                                                      
+         41 Fuentes Brotantes                                                                                                                                                       
+         44 Milpa Alta                                                                                                                                                              
+         45 Narvarte                                                                                                                                                                
+         46 Tlalpan                                                                                                                                                                 
+         47 Villa Alvaro Obregon                                                                                                                                                    
+         50 Xochimilco                                                                                                                                                              
+         51 Gral. Ignacio Zaragoza                                                                                                                                                  
+         55 Jose Maria Morelos y Pavon                                                                                                                                              
+
+20 filas seleccionadas.
+
+SQL> -- Creamos una vista que nos muestre
+SQL> -- la clave y el salario mas alto en la nomina.
+SQL> CREATE OR REPLACE VIEW SalarioMax AS
+  2  SELECT CLAVE_NOMINA, SALARIO FROM NOMINA
+  3  WHERE  salario = (select max(salario) from nomina);
+
+Vista creada.
+
+SQL> --Visualizar la estructura de la vista
+SQL> DESCRIBE SalarioMax;
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_NOMINA                                                                                          NOT NULL NUMBER(4)
+ SALARIO                                                                                               NOT NULL CHAR(10)
+
+SQL> -- Mostrar el contenido de la vista DatosTrabajador
+SQL> SELECT * FROM SalarioMax;
+
+CLAVE_NOMINA SALARIO                                                                                                                                                                
+------------ ----------                                                                                                                                                             
+        4211 7799.50                                                                                                                                                                
+        4218 7799.50                                                                                                                                                                
+
+SQL> -- Creamos una vista que nos muestre
+SQL> -- la clave y el salario mas bajo en la nomina.
+SQL> CREATE OR REPLACE VIEW SalarioMin AS
+  2  SELECT CLAVE_NOMINA, SALARIO FROM NOMINA
+  3  WHERE  salario = (select min(salario) from nomina);
+
+Vista creada.
+
+SQL> --Visualizar la estructura de la vista
+SQL> DESCRIBE SalarioMin;
+ Nombre                                                                                                ¿Nulo?   Tipo
+ ----------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------
+ CLAVE_NOMINA                                                                                          NOT NULL NUMBER(4)
+ SALARIO                                                                                               NOT NULL CHAR(10)
+
+SQL> -- Mostrar el contenido de la vista DatosTrabajador
+SQL> SELECT * FROM SalarioMin;
+
+CLAVE_NOMINA SALARIO                                                                                                                                                                
+------------ ----------                                                                                                                                                             
+        4203 10302.51                                                                                                                                                               
+
+SQL> 
